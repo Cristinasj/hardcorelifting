@@ -1,5 +1,19 @@
-FROM openjdk:24-jdk-slim
-COPY . /app
-WORKDIR /app/hardcorelifting
+# -------- Stage 1: Build with Maven --------
+FROM maven:3.9.11-eclipse-temurin-24 AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy pom.xml and download dependencies (for caching)
+COPY hardcorelifting /app
+RUN mvn dependency:go-offline
+
+# Package the application
+RUN /app/mvnw clean install -DskipTests
+
+
+FROM openjdk:24-jdk-slim AS runner  
+COPY --from=build /app /app
+WORKDIR /app
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "./target/hardcorelifting-0.0.1-SNAPSHOT.jar"]
