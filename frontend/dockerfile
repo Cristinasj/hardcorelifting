@@ -1,5 +1,7 @@
-FROM node:18 AS builder
+FROM node
 WORKDIR /app
-COPY . .
-# RUN npm install
+RUN npm install -g @angular/cli
+COPY ./hl-angular/ /app/
+RUN npm install
+CMD ["ng", "serve", "--host", "0.0.0.0"]
 # RUN npm run build --prod
