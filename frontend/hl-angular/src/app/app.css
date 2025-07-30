@@ -1,0 +1,21 @@
+header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    display: flex  ;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+nav {
+    margin: 20px 0;
+}
+
+a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+    background-color: lightblue;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
