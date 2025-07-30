@@ -1,21 +1,40 @@
 header {
-    background-color: #f8f9fa;
-    padding: 20px;
+    background-color: darkslategray;
+    color: white;
+    padding: 0px 20px;
     text-align: center;
     display: flex  ;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
 }
+
+
+header h1 {
+    margin: 0;
+}
+
 nav {
-    margin: 20px 0;
+    margin: 15px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 0 20px 0 20px;
 }
 
 a {
     margin: 0 10px;
     text-decoration: none;
-    color: #007bff;
-    background-color: lightblue;
+    color: white;
     border-radius: 5px;
     padding: 5px 10px;
+}
+
+a:hover {
+    background-color: #555;
+}
+
+
+.register {
+    background-color: #28a745;
 }
