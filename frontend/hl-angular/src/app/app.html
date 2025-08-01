@@ -2,14 +2,14 @@
 <header>
   <h1>💪 HardcoreLifting</h1>
   <nav>
-    <div class="left">
-      <a routerLink="/">Home</a>
-      <a routerLink="/">Highscores</a>
-      <a routerLink="/">My history</a>
+    <div class="left" > <!-- Only show if logged in! -->
+      <a routerLink="/home" *ngIf="authService.isLoggedIn()">Home</a>
+      <a routerLink="/highscores" *ngIf="authService.isLoggedIn()">Highscores</a>
+      <a routerLink="/history" *ngIf="authService.isLoggedIn()">My history</a>
     </div>
     <div class="right">
-      <a class="register" routerLink="/register">Register</a>
-      <a routerLink="/login">Login</a>
+      <a class="register" routerLink="/register" *ngIf="!authService.isLoggedIn()">Register</a>
+      <a routerLink="/login" *ngIf="!authService.isLoggedIn();">Login</a>
     </div>
   </nav>
 </header>
