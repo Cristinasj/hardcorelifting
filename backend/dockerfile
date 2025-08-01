@@ -5,8 +5,9 @@ FROM maven:3.9.11-eclipse-temurin-24 AS build
 WORKDIR /app
 
 # Copy pom.xml and download dependencies (for caching)
-COPY hardcorelifting /app
+COPY hardcorelifting/pom.xml /app
 RUN mvn dependency:go-offline
+COPY hardcorelifting /app
 
 # Package the application
 RUN /app/mvnw clean install -DskipTests
