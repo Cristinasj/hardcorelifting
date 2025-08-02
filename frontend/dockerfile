@@ -23,7 +23,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 
 # Copy built Angular app from previous stage
-COPY --from=build /app/dist/hl-angular /usr/share/nginx/html
+COPY --from=build /app/dist/hl-angular/browser /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
