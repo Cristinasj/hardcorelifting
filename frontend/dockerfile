@@ -5,6 +5,9 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY hl-angular . 
+
+RUN npm install 
+
 RUN npm install -g @angular/cli
 
 # Build the Angular app
