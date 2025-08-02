@@ -1,8 +1,10 @@
 <!-- A navbar -->
 <header>
-  <h1>💪 HardcoreLifting</h1>
+  <a routerLink="/">
+    <h1>💪 HardcoreLifting</h1>
+  </a>
   <nav>
-    <div class="left" > <!-- Only show if logged in! -->
+    <div class="left"> <!-- Only show if logged in! -->
       <a routerLink="/home" *ngIf="authService.isLoggedIn()">Home</a>
       <a routerLink="/highscores" *ngIf="authService.isLoggedIn()">Highscores</a>
       <a routerLink="/history" *ngIf="authService.isLoggedIn()">My history</a>
@@ -10,6 +12,7 @@
     <div class="right">
       <a class="register" routerLink="/register" *ngIf="!authService.isLoggedIn()">Register</a>
       <a routerLink="/login" *ngIf="!authService.isLoggedIn();">Login</a>
+      <button (click)="logout()" *ngIf="authService.isLoggedIn();">Logout</button>
     </div>
   </nav>
 </header>
