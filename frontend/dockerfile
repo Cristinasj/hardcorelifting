@@ -4,11 +4,8 @@ FROM node AS build
 WORKDIR /app
 
 # Copy package files and install dependencies
-COPY package*.json ./
+COPY . . 
 RUN npm install -g @angular/cli
-
-# Copy the rest of the source code
-COPY . .
 
 # Build the Angular app
 RUN ng build --configuration production
