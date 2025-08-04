@@ -25,7 +25,7 @@ jobs:
     - name: Build and push image
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: ./frontend
         file: ./frontend/dockerfile  # Adjust path as needed
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/hardcorelifting:latest
