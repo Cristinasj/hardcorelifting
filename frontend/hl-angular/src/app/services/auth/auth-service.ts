@@ -36,26 +36,12 @@ export class AuthService {
       return { success: false, message: loginResult.error };
     }
 
-
-    /*.subscribe((response: any) => {
-      if (response.token) {
-        this.token = response.token;
-        if (this.token !== null) {
-          localStorage.setItem('auth_token', this.token);
-        }
-      }
-
-
-    }, error => {
-      console.error('Login failed', error);
-    });*/
-
-
   }
 
   logout() {
     this.token = null;
-    // Logout api call 
+    localStorage.removeItem('auth_token');
+    this.http.post('http://localhost:3001/logout', {})
   }
 
   isLoggedIn(): boolean {
@@ -75,5 +61,26 @@ export class AuthService {
 
   getDebugInfo(): string {
     return `Token: ${this.token ? this.token : 'No token available'}`;
+  }
+
+  async register(username: string, password: string): Promise<{ success: boolean, message: string, token?: string }> {
+    // Backend registration logic here
+    let registerResult: any = {}
+    try {
+      registerResult = await firstValueFrom(this.http.post('http://localhost:3001/register', { username, password }))
+    } catch (error: any) {
+      registerResult = { error: error.message || 'Registration failed' };
+    }
+    const success = registerResult.error === undefined;
+    if (success) {
+      // Login and set token
+      const loginResult = await this.login(username, password);
+      if (!loginResult.success) {
+        return { success: false, message: "You are registered, but we couldn't log you in. Try through the form." };
+      }
+      return { success: true, message: 'Registration successful', token: loginResult.token!};
+    } else {
+      return { success: false, message: registerResult.error };
+    }
   }
 }
