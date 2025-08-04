@@ -21,9 +21,12 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+
     - name: Build and push image
       uses: docker/build-push-action@v5
       with:
         context: .
+        file: ./frontend/dockerfile  # Adjust path as needed
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/hardcorelifting:latest
+
