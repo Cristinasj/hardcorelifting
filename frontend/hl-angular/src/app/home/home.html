@@ -1,2 +1,7 @@
-<p>home works!</p>
-<p>Debug profile info: {{ getUserInfo() }}</p>
+<!--
+<pre>{{ this.userExercisesStats | async | json }}</pre>
+-->
+
+<section class="card-container" *ngIf="userExercisesPromise | async as exercises">
+    <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
+</section>

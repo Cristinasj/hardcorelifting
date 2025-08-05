@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth/auth-service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const token = "token_JWT" // authService.getToken();
+  const token = authService.getToken();
 
   // Add the authorization header here!!
 

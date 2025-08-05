@@ -19,7 +19,7 @@ export class AuthService {
     // Backend authentication logic here
     let loginResult: any = {}
     try {
-      loginResult = await firstValueFrom(this.http.post('http://localhost:3001/login', { username, password }))
+      loginResult = await firstValueFrom(this.http.post('http://localhost:3001/api/login', { username, password }))
     } catch (error: any) {
       loginResult = { error: error.message || 'Login failed' };
     }
@@ -41,7 +41,7 @@ export class AuthService {
   logout() {
     this.token = null;
     localStorage.removeItem('auth_token');
-    this.http.post('http://localhost:3001/logout', {})
+    this.http.post('http://localhost:3001/api/logout', {})
   }
 
   isLoggedIn(): boolean {
@@ -67,7 +67,7 @@ export class AuthService {
     // Backend registration logic here
     let registerResult: any = {}
     try {
-      registerResult = await firstValueFrom(this.http.post('http://localhost:3001/register', { username, password }))
+      registerResult = await firstValueFrom(this.http.post('http://localhost:3001/api/register', { username, password }))
     } catch (error: any) {
       registerResult = { error: error.message || 'Registration failed' };
     }
