@@ -14,6 +14,14 @@ services:
       - db
     networks:
       - hardcorelifting
+    
+  mockserver:
+    build:
+      context: ./mock-server
+    ports:
+      - '3001:3001'
+    networks:
+      - hardcorelifting
 
   # Frontend 
   frontend:

@@ -186,6 +186,6 @@ app.get('/api/exercise-history/:exercise', (req, res) => {
   return res.json({ exercise, history });
 });
 
-app.listen(PORT, () => {
-  console.log(`Mock server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log("Mock server running on http://");
 });
