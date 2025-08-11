@@ -2,6 +2,11 @@
 <pre>{{ this.userExercisesStats | async | json }}</pre>
 -->
 
-<section class="card-container" *ngIf="userExercisesPromise | async as exercises">
-    <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
+<section class="home">
+    <h2>Your exercises</h2>
+    <section class="card-container" *ngIf="userExercisesPromise | async as exercises">
+        <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
+    </section>
+    <button>Register new lift</button>
 </section>
+
