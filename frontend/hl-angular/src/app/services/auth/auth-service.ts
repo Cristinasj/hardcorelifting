@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   token: string | null = null;
+
+  private readonly BASE_URL = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {
     // Initialize the service, e.g., check for existing token
@@ -19,7 +22,7 @@ export class AuthService {
     // Backend authentication logic here
     let loginResult: any = {}
     try {
-      loginResult = await firstValueFrom(this.http.post('http://localhost:3001/api/login', { username, password }))
+      loginResult = await firstValueFrom(this.http.post(`${this.BASE_URL}/api/login`, { username, password }))
     } catch (error: any) {
       loginResult = { error: error.message || 'Login failed' };
     }
@@ -35,13 +38,12 @@ export class AuthService {
     } else {
       return { success: false, message: loginResult.error };
     }
-
   }
 
   logout() {
     this.token = null;
     localStorage.removeItem('auth_token');
-    this.http.post('http://localhost:3001/api/logout', {})
+    this.http.post(`${this.BASE_URL}/api/logout`, {})
   }
 
   isLoggedIn(): boolean {
@@ -67,7 +69,7 @@ export class AuthService {
     // Backend registration logic here
     let registerResult: any = {}
     try {
-      registerResult = await firstValueFrom(this.http.post('http://localhost:3001/api/register', { username, password }))
+      registerResult = await firstValueFrom(this.http.post(`${this.BASE_URL}/api/register`, { username, password }))
     } catch (error: any) {
       registerResult = { error: error.message || 'Registration failed' };
     }
