@@ -55,9 +55,51 @@ services:
     networks:
       - hardcorelifting
       
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - mimir
+      - loki
+      - tempo
+
+  loki:
+    image: grafana/loki:latest
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki
+
+  tempo:
+    image: grafana/tempo:latest
+    command: -config.file=/etc/tempo/local-config.yaml
+    ports:
+      - "3200:3200"
+    volumes:
+      - tempo-data:/var/tempo
+
+  mimir:
+    image: grafana/mimir:latest
+    command: -config.file=/etc/mimir/mimir.yaml
+    ports:
+      - "9009:9009"
+    volumes:
+      - mimir-data:/mimir
+
 volumes:
   db_data:
   ollama-data:
+  grafana-data:
+  loki-data:
+  tempo-data:
+  mimir-data:
 
 networks:
   hardcorelifting:
