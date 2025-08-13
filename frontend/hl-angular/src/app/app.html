@@ -1,23 +1,28 @@
 <!-- A navbar -->
-<header>
-  <a routerLink="/">
-    <span class="logo-container">
-      <h1 id="logo">💪</h1>
-      <h1 id="logo-text">HardcoreLifting</h1>
-    </span>
-  </a>
-  <nav>
-    <div class="left"> <!-- Only show if logged in! -->
-      <a routerLink="/home" *ngIf="authService.isLoggedIn()">Home</a>
-      <a routerLink="/highscores" *ngIf="authService.isLoggedIn()">Highscores</a>
-      <a routerLink="/history" *ngIf="authService.isLoggedIn()">My history</a>
-    </div>
-    <div class="right">
-      <a class="register" routerLink="/register" *ngIf="!authService.isLoggedIn()">Register</a>
-      <a routerLink="/login" *ngIf="!authService.isLoggedIn();">Login</a>
-      <button (click)="logout()" *ngIf="authService.isLoggedIn();">Logout</button>
-    </div>
-  </nav>
-</header>
+<div class="container">
 
-<router-outlet></router-outlet>
+  <header>
+    <a routerLink="/">
+      <span class="logo-container">
+        <h1 id="logo">💪</h1>
+        <h1 id="logo-text">HardcoreLifting</h1>
+      </span>
+    </a>
+    <nav>
+      <div class="left"> <!-- Only show if logged in! -->
+        <a routerLink="/home" *ngIf="authService.isLoggedIn()">Home</a>
+        <a routerLink="/highscores" *ngIf="authService.isLoggedIn()">Highscores</a>
+        <a routerLink="/history" *ngIf="authService.isLoggedIn()">My history</a>
+      </div>
+      <div class="right">
+        <a class="register" routerLink="/register" *ngIf="!authService.isLoggedIn()">Register</a>
+        <a routerLink="/login" *ngIf="!authService.isLoggedIn();">Login</a>
+        <button (click)="logout()" *ngIf="authService.isLoggedIn();">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <router-outlet></router-outlet>
+
+
+</div>

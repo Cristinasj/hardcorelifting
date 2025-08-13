@@ -3,10 +3,11 @@
 -->
 
 <section class="home">
-    <h2>Your exercises</h2>
+    <div>
+        <h2>Your exercises</h2>
+        <button>New</button>
+    </div>
     <section class="card-container" *ngIf="userExercisesPromise | async as exercises">
         <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
     </section>
-    <button>Register new lift</button>
 </section>
-
