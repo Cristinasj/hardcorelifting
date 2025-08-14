@@ -95,7 +95,6 @@ services:
 
 volumes:
   db_data:
-  ollama-data:
   grafana-data:
   loki-data:
   tempo-data:
