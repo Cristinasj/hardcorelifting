@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
+import { TitleizePipe } from '../../pipes/titleize-pipe';
 
 @Component({
   selector: 'app-exercise-card',
-  imports: [],
+  imports: [TitleizePipe],
   templateUrl: './exercise-card.html',
   styleUrl: './exercise-card.css'
 })
