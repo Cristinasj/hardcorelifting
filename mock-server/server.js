@@ -53,7 +53,7 @@ app.post('/api/register', (req, res) => {
   if (users.find(u => u.username === username)) {
     return res.status(409).json({ error: 'User already exists' });
   }
-  users.push({ username, password });
+  users.push({ username, password, entries: [] });
   return res.status(201).json({ message: 'User registered' });
 });
 
