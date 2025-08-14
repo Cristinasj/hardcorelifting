@@ -18,12 +18,19 @@
                 <button (click)="closeModal()">x</button>
             </div>
             <!-- Add your form or content for adding a new exercise here -->
-            <form action="">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <button>Submit</button>
+            <form action="" (ngSubmit)="onSubmit()" #exerciseForm="ngForm">
+                <label for="exerciseName">Exercise Name:</label>
+                <select [(ngModel)]="formData.exerciseName" name="exerciseName">
+                    <option *ngFor="let exercise of (exercisesListPromise | async)" [value]="exercise" >{{ exercise }}</option>
+                </select>
+                <label for="unit">Unit:</label>
+                <select [(ngModel)]="formData.unit" name="unit">
+                    <option value="kg">kg</option>
+                    <option value="lbs">lbs</option>
+                </select>
+                <label for="amount">Amount:</label>
+                <input type="number" placeholder="Amount" [(ngModel)]="formData.amount" name="amount">
+                <button type="submit">Save</button>
             </form>
         </div>
 

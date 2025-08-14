@@ -31,5 +31,10 @@ export class ApiService {
     return response;
   }
 
+  async postNewLift(exercise: string, unit: string, amount: number) {
+    const response: any = await firstValueFrom(this.http.post(`${this.BASE_URL}/api/exercise-entry`, { exercise, unit, amount }));
+    return response;
+  }
+
 
 }

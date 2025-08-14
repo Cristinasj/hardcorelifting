@@ -4,17 +4,24 @@ import { ApiService } from '../services/api/api-service';
 import { OnInit } from '@angular/core';
 import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { ExerciseCard } from './exercise-card/exercise-card';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
-  imports: [AsyncPipe, JsonPipe, ExerciseCard, NgIf, NgForOf],
+  imports: [AsyncPipe, JsonPipe, ExerciseCard, NgIf, NgForOf, FormsModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
 
   userExercisesPromise: Promise<any[]> = Promise.resolve([]);
+  exercisesListPromise: Promise<any[]> = Promise.resolve([]);
   isModalOpen = false;
+  formData = {
+    exerciseName: 'bench_press',
+    unit: 'kg',
+    amount: 0
+  };
 
   constructor(public authService: AuthService, private apiService: ApiService) {
     // Initialization logic can go here
@@ -46,9 +53,26 @@ export class Home implements OnInit {
     return statsArray;
   }
 
+  async getExercises() {
+    const exercises = await this.apiService.getExercises();
+    return exercises;
+  }
+
+  async onSubmit() {
+    // Handle form submission logic here
+    let response = await this.apiService.postNewLift(this.formData.exerciseName, this.formData.unit, this.formData.amount);
+    if (!response.error) {
+      this.userExercisesPromise = this.getUserExercises();
+      this.closeModal();
+    }
+    else {
+      alert(`Error: ${response.message}`);
+    }
+  }
+
   ngOnInit() {
     this.userExercisesPromise = this.getUserExercises();
-
+    this.exercisesListPromise = this.apiService.getExercises();
   }
 
 }

@@ -91,3 +91,7 @@
   color: var(--text-primary);
   font-size: 1em;
 }
+
+li {
+  color: black;
+}
