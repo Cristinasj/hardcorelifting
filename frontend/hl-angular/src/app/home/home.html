@@ -5,9 +5,27 @@
 <section class="home">
     <div>
         <h2>Your exercises</h2>
-        <button>+</button>
+        <button id="add-btn" (click)="openModal()">+</button>
     </div>
     <section class="card-container" *ngIf="userExercisesPromise | async as exercises">
         <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
     </section>
+
+    <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Add New Exercise</h3>
+                <button (click)="closeModal()">x</button>
+            </div>
+            <!-- Add your form or content for adding a new exercise here -->
+            <form action="">
+                <input type="text">
+                <input type="text">
+                <input type="text">
+                <input type="text">
+                <button>Submit</button>
+            </form>
+        </div>
+
+    </div>
 </section>

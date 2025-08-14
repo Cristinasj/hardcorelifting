@@ -2,22 +2,30 @@ import { Component } from '@angular/core';
 import { AuthService } from '../services/auth/auth-service';
 import { ApiService } from '../services/api/api-service';
 import { OnInit } from '@angular/core';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { ExerciseCard } from './exercise-card/exercise-card';
-import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [AsyncPipe, JsonPipe, ExerciseCard, NgForOf, NgIf],
+  imports: [AsyncPipe, JsonPipe, ExerciseCard, NgIf, NgForOf],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
 
   userExercisesPromise: Promise<any[]> = Promise.resolve([]);
+  isModalOpen = false;
 
   constructor(public authService: AuthService, private apiService: ApiService) {
     // Initialization logic can go here
+  }
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 
   // You can add methods or properties specific to the Home component here
