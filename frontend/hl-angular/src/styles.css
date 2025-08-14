@@ -4,3 +4,13 @@ body {
     margin: 0;
     padding: 0;
 }
+
+:root {
+    --text-primary: white;
+    --text-secondary: lightgray;
+    --text-accent: #f77f00;
+    --bg-primary: #1a1a1a;
+    --bg-surface: #222;
+    --action-primary: #e63946;
+    --action-secondary: #28a745;
+}
