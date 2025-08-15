@@ -93,6 +93,14 @@ services:
     volumes:
       - mimir-data:/mimir
 
+  prometheus: 
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./IaC/prometheus.yml:/etc/prometheus/prometheus.yml
+
 volumes:
   db_data:
   grafana-data:
