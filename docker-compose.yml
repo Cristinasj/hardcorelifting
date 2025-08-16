@@ -100,6 +100,8 @@ services:
       - "9090:9090"
     volumes:
       - ./IaC/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - hardcorelifting
 
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:latest
