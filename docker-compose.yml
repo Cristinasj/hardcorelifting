@@ -101,14 +101,14 @@ services:
     volumes:
       - ./IaC/prometheus.yml:/etc/prometheus/prometheus.yml
 
-nginx-exporter:
-  image: nginxinc/nginx-prometheus-exporter:latest
-  command:
-    - -nginx.scrape-uri=http://frontend:80/nginx_status
-  ports:
-    - "9113:9113"
-  depends_on:
-    - frontend
+  nginx-exporter:
+    image: nginxinc/nginx-prometheus-exporter:latest
+    command:
+      - -nginx.scrape-uri=http://frontend:80/nginx_status
+    ports:
+      - "9113:9113"
+    depends_on:
+      - frontend
 
 volumes:
   db_data:
