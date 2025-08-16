@@ -59,7 +59,7 @@ services:
 
   mimir:
     image: grafana/mimir:latest
-    command: -config.file=/etc/mimir/mimir.yaml
+    command: -config.file=/etc/mimir/mimir.yml
     ports:
       - "9009:9009"
     volumes:
