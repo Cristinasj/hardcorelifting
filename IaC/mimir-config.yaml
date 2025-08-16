@@ -12,3 +12,5 @@ compactor:
 limits:
   ingestion_rate: 50000
   ingestion_burst_size: 100000
+
+multitenancy_enabled: false
