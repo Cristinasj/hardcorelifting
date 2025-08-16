@@ -68,6 +68,8 @@ services:
       - mimir
       - loki
       - tempo
+    networks:
+      - hardcorelifting
 
   loki:
     image: grafana/loki:latest
@@ -76,6 +78,8 @@ services:
       - "3100:3100"
     volumes:
       - loki-data:/loki
+    networks:
+      - hardcorelifting
 
   tempo:
     image: grafana/tempo:latest
@@ -84,6 +88,8 @@ services:
       - "3200:3200"
     volumes:
       - tempo-data:/var/tempo
+    networks:
+      - hardcorelifting
 
   mimir:
     image: grafana/mimir:latest
@@ -92,6 +98,8 @@ services:
       - "9009:9009"
     volumes:
       - mimir-data:/mimir
+    networks:
+      - hardcorelifting
 
   prometheus: 
     image: prom/prometheus:latest
@@ -111,6 +119,8 @@ services:
       - "9113:9113"
     depends_on:
       - frontend
+    networks:
+      - hardcorelifting
 
 volumes:
   db_data:
