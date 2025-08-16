@@ -1,4 +1,5 @@
 const express = require('express');
+const prom_client = require('prom-client');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -6,6 +7,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3001;
 const JWT_SECRET = 'supersecretkey';
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -43,6 +45,16 @@ const users = [
     ]
   }
 ];
+
+// Prometheus 
+const collectDefaultMetrics = prom_client.collectDefaultMetrics;
+collectDefaultMetrics();
+
+app.get('/metrics', async (_req, res) => {
+  res.set('Content-Type', prom_client.register.contentType);
+  res.end(await prom_client.register.metrics());
+});
+
 
 // Register endpoint
 app.post('/api/register', (req, res) => {
