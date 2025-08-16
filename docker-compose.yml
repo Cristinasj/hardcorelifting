@@ -104,7 +104,7 @@ services:
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:latest
     command:
-      - -nginx.scrape-uri=http://frontend:80/nginx_status
+      - -nginx.scrape-uri=http://hardcorelifting.fit/nginx_status
     ports:
       - "9113:9113"
     depends_on:
