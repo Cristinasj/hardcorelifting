@@ -1,19 +1,19 @@
 services:
-  #Backend 
-  backend:
-    build:
-      context: ./backend
-    # restart: unless-stopped
-    ports:
-      - '8080:8080'
-    environment:
-      - DEBUG=${APP_DEBUG}
-      - LOG_LEVEL=${LOG_LEVEL}
-      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-    depends_on:
-      - db
-    networks:
-      - hardcorelifting
+  # #Backend 
+  # backend:
+  #   build:
+  #     context: ./backend
+  #   # restart: unless-stopped
+  #   ports:
+  #     - '8080:8080'
+  #   environment:
+  #     - DEBUG=${APP_DEBUG}
+  #     - LOG_LEVEL=${LOG_LEVEL}
+  #     - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - hardcorelifting
     
   mockserver:
     build:
@@ -37,23 +37,23 @@ services:
     networks:
       - hardcorelifting
     depends_on:
-      - backend
+      - mockserver
 
-  # Base de datos PostgreSQL
-  db:
-    image: postgres:15-alpine
-    restart: unless-stopped
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_PORT=${DB_PORT}
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - hardcorelifting
+  # # Base de datos PostgreSQL
+  # db:
+  #   image: postgres:15-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     - POSTGRES_DB=${DB_NAME}
+  #     - POSTGRES_USER=${DB_USER}
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD}
+  #     - POSTGRES_PORT=${DB_PORT}
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #     - hardcorelifting
       
   grafana:
     image: grafana/grafana:latest
