@@ -5,8 +5,6 @@ services:
       context: ./mock-server
     ports:
       - '3001:3001'
-    networks:
-      - hardcorelifting
 
   frontend:
     container_name: frontend_hcl_app
@@ -15,8 +13,6 @@ services:
     restart: unless-stopped
     ports:
       - '80:80'
-    networks:
-      - hardcorelifting
     depends_on:
       - mockserver
 
@@ -34,8 +30,6 @@ services:
       - mimir
       - loki
       - tempo
-    networks:
-      - hardcorelifting
 
   loki:
     image: grafana/loki:latest
@@ -44,8 +38,6 @@ services:
       - "3100:3100"
     volumes:
       - loki-data:/loki
-    networks:
-      - hardcorelifting
 
   tempo:
     image: grafana/tempo:latest
@@ -54,8 +46,6 @@ services:
       - "3200:3200"
     volumes:
       - tempo-data:/var/tempo
-    networks:
-      - hardcorelifting
 
   mimir:
     image: grafana/mimir:latest
@@ -65,8 +55,6 @@ services:
     volumes:
       - mimir-data:/mimir
       - ./IaC/mimir-config.yaml:/etc/mimir/mimir.yml
-    networks:
-      - hardcorelifting
 
   prometheus: 
     image: prom/prometheus:latest
@@ -75,8 +63,6 @@ services:
       - "9090:9090"
     volumes:
       - ./IaC/prometheus.yml:/etc/prometheus/prometheus.yml
-    networks:
-      - hardcorelifting
 
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:latest
@@ -86,8 +72,6 @@ services:
       - "9113:9113"
     depends_on:
       - frontend
-    networks:
-      - hardcorelifting
   
 
   node-exporter:
@@ -100,8 +84,6 @@ services:
       - "/:/host:ro,rslave"
     command:
       - "--path.rootfs=/host"
-    networks:
-      - hardcorelifting
 
 volumes:
   db_data:
@@ -109,7 +91,3 @@ volumes:
   loki-data:
   tempo-data:
   mimir-data:
-
-networks:
-  hardcorelifting:
-    driver: bridge
