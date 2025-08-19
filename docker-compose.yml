@@ -43,7 +43,7 @@ services:
       - loki-data:/loki
 
   tempo:
-    container_name: loki
+    container_name: tempo
     image: grafana/tempo:latest
     command: -config.file=/etc/tempo/local-config.yaml
     ports:
