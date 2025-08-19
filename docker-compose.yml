@@ -88,6 +88,20 @@ services:
       - frontend
     networks:
       - hardcorelifting
+  
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: "host"   # so it binds directly to VM’s 9100
+    pid: "host"            # lets it see host processes
+    volumes:
+      - "/:/host:ro,rslave"
+    command:
+      - "--path.rootfs=/host"
+    networks:
+      - hardcorelifting
 
 volumes:
   db_data:
