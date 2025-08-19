@@ -1,13 +1,14 @@
 services:
 
   mockserver:
+    container_name: mockserver
     build:
       context: ./mock-server
     ports:
       - '3001:3001'
 
   frontend:
-    container_name: frontend_hcl_app
+    container_name: frontend
     build:
       context: ./frontend
     restart: unless-stopped
@@ -18,6 +19,7 @@ services:
 
       
   grafana:
+    container_name: grafana
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
@@ -32,6 +34,7 @@ services:
       - tempo
 
   loki:
+    container_name: loki
     image: grafana/loki:latest
     command: -config.file=/etc/loki/local-config.yaml
     ports:
@@ -40,6 +43,7 @@ services:
       - loki-data:/loki
 
   tempo:
+    container_name: loki
     image: grafana/tempo:latest
     command: -config.file=/etc/tempo/local-config.yaml
     ports:
@@ -48,6 +52,7 @@ services:
       - tempo-data:/var/tempo
 
   mimir:
+    container_name: mimir
     image: grafana/mimir:latest
     command: -config.file=/etc/mimir/mimir.yml
     ports:
@@ -65,6 +70,7 @@ services:
       - ./IaC/prometheus.yml:/etc/prometheus/prometheus.yml
 
   nginx-exporter:
+    container_name: nginx-exporter
     image: nginx/nginx-prometheus-exporter:latest
     command:
       - -nginx.scrape-uri=http://hardcorelifting.fit/nginx_status
