@@ -12,10 +12,14 @@ services:
     build:
       context: ./frontend
     restart: unless-stopped
-    ports:
-      - '80:80'
+    expose:
+      - '80'
     depends_on:
       - mockserver
+    environment:
+      - VIRTUAL_HOST=hardcorelifting.fit
+      - LETSENCRYPT_HOST=hardcorelifting.fit
+      - LETSENCRYPT_EMAIL=sanchezjcristin@gmail.com
 
       
   grafana:
@@ -96,15 +100,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
-
-  app:
-    image: your-app-image
-    environment:
-      - VIRTUAL_HOST=hardcorelifting.fit
-      - LETSENCRYPT_HOST=hardcorelifting.fit
-      - LETSENCRYPT_EMAIL=you@example.com
-    expose:
-      - "80"
 
 volumes:
   grafana-data:
