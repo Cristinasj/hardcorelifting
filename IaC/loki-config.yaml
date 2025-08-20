@@ -23,7 +23,6 @@ schema_config:
       index:
         prefix: index_
         period: 24h
-      chunks: ./chunks
 
 storage_config:
   boltdb_shipper:
