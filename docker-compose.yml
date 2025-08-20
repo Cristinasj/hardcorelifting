@@ -33,45 +33,6 @@ services:
       - loki
       - tempo
 
-  loki:
-    container_name: loki
-    image: grafana/loki:2.9.0
-    command: -config.file=/etc/loki/local-config.yaml
-    ports:
-      - "3100:3100"
-    volumes:
-      - loki-data:/loki
-      - ./IaC/loki-config.yaml:/etc/loki/local-config.yaml:ro
-
-  
-  promtail:
-    image: grafana/promtail:2.9.0
-    container_name: promtail
-    volumes:
-      - /var/log:/var/log
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./IaC/promtail-config.yaml:/etc/promtail/config.yaml:ro
-    command: -config.file=/etc/promtail/config.yaml
-
-  tempo:
-    container_name: tempo
-    image: grafana/tempo:latest
-    command: -config.file=/etc/tempo/local-config.yaml
-    ports:
-      - "3200:3200"
-    volumes:
-      - tempo-data:/var/tempo
-
-  mimir:
-    container_name: mimir
-    image: grafana/mimir:latest
-    command: -config.file=/etc/mimir/mimir.yml
-    ports:
-      - "9009:9009"
-    volumes:
-      - mimir-data:/mimir
-      - ./IaC/mimir-config.yaml:/etc/mimir/mimir.yml
-
   prometheus: 
     image: prom/prometheus:latest
     container_name: prometheus
@@ -89,7 +50,6 @@ services:
       - "9113:9113"
     depends_on:
       - frontend
-  
 
   node-exporter:
     image: prom/node-exporter:latest
@@ -116,10 +76,35 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     restart: unless-stopped
 
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx/certs
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-le
+    volumes:
+      - /etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+
+  app:
+    image: your-app-image
+    environment:
+      - VIRTUAL_HOST=hardcorelifting.fit
+      - LETSENCRYPT_HOST=hardcorelifting.fit
+      - LETSENCRYPT_EMAIL=you@example.com
+    expose:
+      - "80"
 
 volumes:
-  db_data:
   grafana-data:
-  loki-data:
-  tempo-data:
-  mimir-data:
