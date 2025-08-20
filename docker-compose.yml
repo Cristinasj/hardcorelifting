@@ -101,3 +101,6 @@ services:
 
 volumes:
   grafana-data:
+  certs:
+  vhost.d:
+  html:
