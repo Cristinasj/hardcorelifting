@@ -32,7 +32,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-data:/var/lib/grafana
-      
+
   prometheus: 
     image: prom/prometheus:latest
     container_name: prometheus
@@ -83,19 +83,21 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/nginx/certs
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: nginx-proxy-le
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
-      - /etc/nginx/certs
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    volumes_from:
-      - nginx-proxy
 
 volumes:
   grafana-data:
