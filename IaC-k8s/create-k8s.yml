@@ -6,48 +6,48 @@ az network vnet create \
   --name rke-vnet \
   --subnet-name rke-subnet
 
-# Bastion NSG
+# Controlplane NSG
 az network nsg create \
   --resource-group rke-cluster-rg \
-  --name bastion-nsg
+  --name contrlplane-nsg
 
 az network nsg rule create \
   --resource-group rke-cluster-rg \
-  --nsg-name bastion-nsg \
+  --nsg-name controlplane-nsg \
   --name allow-ssh \
   --priority 1000 \
   --protocol Tcp \
   --destination-port-ranges 22 \
   --access Allow
 
-# Public IP for Bastion
+# Public IP for contolplane
 az network public-ip create \
   --resource-group rke-cluster-rg \
-  --name bastion-pip \
+  --name rke-pip \
   --sku Standard \
   --allocation-method static
 
-# Bastion VM
+# Controlplane VM
 az vm create \
   --resource-group rke-cluster-rg \
-  --name rke-bastion \
+  --name controlplane \
   --image Ubuntu2204 \
   --size Standard_B1ms \
   --admin-username azureuser \
   --ssh-key-values ~/.ssh/id_rsa.pub \
   --vnet-name rke-vnet \
   --subnet rke-subnet \
-  --nsg bastion-nsg \
-  --public-ip-address bastion-pip
+  --nsg controlplane-nsg \
+  --public-ip-address rke-pip
 
 # Cluster NSG (K8s ports, only internal access)
 az network nsg create \
   --resource-group rke-cluster-rg \
-  --name cluster-nsg
+  --name workers-nsg
 
 az network nsg rule create \
   --resource-group rke-cluster-rg \
-  --nsg-name cluster-nsg \
+  --nsg-name workers-nsg \
   --name allow-internal-k8s \
   --priority 1000 \
   --protocol Tcp \
@@ -59,13 +59,13 @@ az network nsg rule create \
 for i in 1 2 3; do
   az vm create \
     --resource-group rke-cluster-rg \
-    --name rke-node-$i \
+    --name worker-$i \
     --image Ubuntu2204 \
     --size Standard_B1ms \
     --admin-username azureuser \
     --ssh-key-values ~/.ssh/id_rsa.pub \
     --vnet-name rke-vnet \
     --subnet rke-subnet \
-    --nsg cluster-nsg \
+    --nsg workers-nsg \
     --public-ip-address ""   # <--- NO PUBLIC IP
 done
