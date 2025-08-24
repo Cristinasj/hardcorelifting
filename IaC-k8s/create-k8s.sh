@@ -9,16 +9,17 @@ az network vnet create \
 # Controlplane NSG
 az network nsg create \
   --resource-group rke-cluster-rg \
-  --name controlplane-nsg
+  --name nsg
 
 az network nsg rule create \
   --resource-group rke-cluster-rg \
-  --nsg-name controlplane-nsg \
+  --nsg-name nsg \
   --name allow-ssh \
   --priority 1000 \
   --protocol Tcp \
-  --destination-port-ranges 22 \
+  --destination-port-ranges 22 6443 2379 2380 10250-10252 30000-32767 \
   --access Allow
+
 
 # Public IP for contolplane
 az network public-ip create \
@@ -37,23 +38,8 @@ az vm create \
   --ssh-key-values ~/.ssh/id_rsa.pub \
   --vnet-name rke-vnet \
   --subnet rke-subnet \
-  --nsg controlplane-nsg \
+  --nsg nsg \
   --public-ip-address rke-pip
-
-# Cluster NSG (K8s ports, only internal access)
-az network nsg create \
-  --resource-group rke-cluster-rg \
-  --name workers-nsg
-
-az network nsg rule create \
-  --resource-group rke-cluster-rg \
-  --nsg-name workers-nsg \
-  --name allow-internal-k8s \
-  --priority 1000 \
-  --protocol Tcp \
-  --source-address-prefixes 10.0.0.0/16 \
-  --destination-port-ranges 22 6443 2379 2380 10250-10252 30000-32767 \
-  --access Allow
 
 # Create 3 nodes (private only, no public IPs)
 for i in 1 2 3; do
@@ -66,6 +52,6 @@ for i in 1 2 3; do
     --ssh-key-values ~/.ssh/id_rsa.pub \
     --vnet-name rke-vnet \
     --subnet rke-subnet \
-    --nsg workers-nsg \
+    --nsg nsg \
     --public-ip-address ""   # <--- NO PUBLIC IP
 done
