@@ -1,0 +1,24 @@
+nodes:
+  - address: 10.0.0.5
+    user: azureuser
+    role: [controlplane,etcd,worker]
+    ssh_key_path: ~/.ssh/id_rsa
+
+  - address: 10.0.0.6
+    user: azureuser
+    role: [worker]
+    ssh_key_path: ~/.ssh/id_rsa
+
+  - address: 10.0.0.7
+    user: azureuser
+    role: [worker]
+    ssh_key_path: ~/.ssh/id_rsa
+
+network:
+  plugin: canal
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24h
