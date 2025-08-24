@@ -9,7 +9,7 @@ az network vnet create \
 # Controlplane NSG
 az network nsg create \
   --resource-group rke-cluster-rg \
-  --name contrlplane-nsg
+  --name controlplane-nsg
 
 az network nsg rule create \
   --resource-group rke-cluster-rg \
