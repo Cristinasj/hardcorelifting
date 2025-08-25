@@ -17,7 +17,7 @@ az network nsg rule create \
   --name allow-ssh \
   --priority 1000 \
   --protocol Tcp \
-  --destination-port-ranges 22 6443 2379 2380 10250-10252 30000-32767 \
+  --destination-port-ranges 22 6443 9345 2379 2380 2381 8472 9099 51820 51821 10250-10252 30000-32767 \
   --access Allow
 
 
@@ -33,7 +33,7 @@ az vm create \
   --resource-group rke-cluster-rg \
   --name controlplane \
   --image Ubuntu2204 \
-  --size Standard_B1ms \
+  --size Standard_B2s \
   --admin-username azureuser \
   --ssh-key-values ~/.ssh/id_rsa.pub \
   --vnet-name rke-vnet \
@@ -41,17 +41,15 @@ az vm create \
   --nsg nsg \
   --public-ip-address rke-pip
 
-# Create 3 nodes (private only, no public IPs)
-for i in 1 2 3; do
-  az vm create \
-    --resource-group rke-cluster-rg \
-    --name worker-$i \
-    --image Ubuntu2204 \
-    --size Standard_B1ms \
-    --admin-username azureuser \
-    --ssh-key-values ~/.ssh/id_rsa.pub \
-    --vnet-name rke-vnet \
-    --subnet rke-subnet \
-    --nsg nsg \
-    --public-ip-address ""   # <--- NO PUBLIC IP
-done
+# Create worker
+az vm create \
+  --resource-group rke-cluster-rg \
+  --name worker \
+  --image Ubuntu2204 \
+  --size Standard_B2s \
+  --admin-username azureuser \
+  --ssh-key-values ~/.ssh/id_rsa.pub \
+  --vnet-name rke-vnet \
+  --subnet rke-subnet \
+  --nsg nsg \
+  --public-ip-address ""   # <--- NO PUBLIC IP
